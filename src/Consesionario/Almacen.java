@@ -229,7 +229,7 @@ inventario[i] = auto1;
                         
                         
                         for (int i = 0; i < n2; i++) {
-//                            System.out.println(inventario[i].getPlaca());
+//                            System.out.println(inventario[i].getPlaca());xfghbdxfgh
 
                         }
 //</editor-fold>
