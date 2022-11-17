@@ -229,7 +229,7 @@ inventario[i] = auto1;
                         
                         
                         for (int i = 0; i < n2; i++) {
-//                            System.out.println(inventario[i].getPlaca());xfghbdxfgh
+//                            System.out.println(inventario[i].getPlaca());
 
                         }
 //</editor-fold>
@@ -256,5 +256,5 @@ inventario[i] = auto1;
 //</editor-fold>
 
     }
-
+//    2da carga
 }
