@@ -18,6 +18,9 @@ public class Almacen {
         Scanner x = new Scanner(System.in);
         Random r = new Random();
         int n = 0, n2 = 0, n3 = 0, sw = 0, op, mn, placaDisp = 0, placaExis = 0;
+
+        int op1 = 0, op2 = 0, op3 = 0, op4 = 0, op5 = 0, op6 = 0, op7 = 0, op8 = 0, op9 = 0, op10 = 0, op11 = 0, op12 = 0;
+
         Auto inventario[] = new Auto[1];
         vendedor empleados[] = new vendedor[1];
         ventas registroVenta[] = new ventas[1];
@@ -103,6 +106,7 @@ public class Almacen {
                         }
 
 //</editor-fold>
+                        op1 = 1;
                         sww = 1;
                         break;
 
@@ -152,6 +156,9 @@ public class Almacen {
                             System.out.println("\n");
                         }
 //</editor-fold>
+
+                        op1 = 1;
+                        op2 = 1;
                         sww = 1;
                         break;
 
@@ -181,6 +188,8 @@ public class Almacen {
                             empleados[i] = pj;
                         }
                         //</editor-fold>
+
+                        op3 = 1;
                         sww = 1;
                         break;
                     case "4.":
@@ -217,11 +226,15 @@ public class Almacen {
                             System.out.println("\n");
                         }
 //</editor-fold>
+
+                        op3 = 1;
+                        op4 = 1;
                         sww = 1;
                         break;
                     case "5.":
 
-                        //<editor-fold defaultstate="collapsed" desc="Registrar Venta">
+                        if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
+                            //<editor-fold defaultstate="collapsed" desc="Registrar Venta">
 //                        System.out.println("\033[35m**Registrar venta y comisión**");
 //
 //                        System.out.println("Ingrese Placa del vehiculo");
@@ -262,129 +275,174 @@ public class Almacen {
 //                        System.out.println("Ingrese cedula del vendedor");
 //                        int BsqCC = x.nextInt();
 //                        System.out.println(BsqCC);
-                        //<editor-fold defaultstate="collapsed" desc="venta alv">
+                            //<editor-fold defaultstate="collapsed" desc="venta alv">
 //                        venta.setPlaca(BsqPlaca);
 //                        venta.setCedula(posAuto);
 //                        venta.setComision(posAuto);
 //                        registroVenta[1]=venta;
 //</editor-fold>
 //</editor-fold>
-                        //<editor-fold defaultstate="collapsed" desc="Registrar Venta op2">
-                        int totalcomisiones = 0,
-                         comision = 0,
-                         preciomin = 0;
 
-                        System.out.println("Ingrese numero de ventas: ");
-                        n3 = x.nextInt();
+                            //<editor-fold defaultstate="collapsed" desc="Registrar Venta op2">
+                            int totalcomisiones = 0,
+                                    comision = 0,
+                                    preciomin = 0;
 
-                        registroVenta = new ventas[n3];
+                            System.out.println("Ingrese numero de ventas: ");
+                            n3 = x.nextInt();
 
-                        for (int i = 0; i < n3; i++) {
-                            ventas venta = new ventas();
+                            registroVenta = new ventas[n3];
 
-                            System.out.println("----------------- VENTA #" + (i + 1) + "----------------");
-                            System.out.println("PLACAS: ");
-                            for (int j = 0; j < n; j++) {
-                                System.out.print(inventario[j].getPlaca() + ", ");
-                            }
-                            do {
-                                System.out.println("Ingrese placa para la venta: ");
-                                venta.setPlaca(x.next());
+                            for (int i = 0; i < n3; i++) {
+                                ventas venta = new ventas();
+
+                                System.out.println("----------------- VENTA #" + (i + 1) + "----------------");
+                                System.out.println("PLACAS: ");
                                 for (int j = 0; j < n; j++) {
-                                    if (venta.getPlaca().equals(inventario[j].getPlaca())) {
+                                    System.out.print(inventario[j].getPlaca() + ", ");
+                                }
+                                do {
+                                    System.out.println("Ingrese placa para la venta: ");
+                                    venta.setPlaca(x.next());
+                                    for (int j = 0; j < n; j++) {
+                                        if (venta.getPlaca().equals(inventario[j].getPlaca())) {
+                                            placaExis = 1;
+                                        }
+                                    }
+                                    if (placaExis == 0) {
+                                        System.out.println("WARN: No se encontró la placa registrada, Intentelo de nuevo: ");
+                                    }
+                                } while (placaExis == 0);
+                                placaExis = 0;
+
+                                System.out.println("VENDEDORES: ");
+                                for (int k = 0; k < n2; k++) {
+                                    System.out.println("Nombre: " + empleados[k].getNombre() + "\n"
+                                            + "Cedula: " + empleados[k].getIdentificacion() + "\n");
+                                }
+                                do {
+                                    System.out.println("Ingrese cedula del vendedor: ");
+                                    venta.setCedula(x.nextInt());
+                                    for (int j = 0; j < n2; j++) {
+                                        if (venta.getCedula() == empleados[j].getIdentificacion()) {
+                                            sw = 1;
+                                        }
+                                    }
+                                    if (sw == 0) {
+                                        System.out.println("WARN: La cedula no se encuentra registrada, Intentelo de nuevo: ");
+                                    }
+                                } while (sw == 0);
+                                sw = 0;
+
+                                do {
+                                    for (int j = 0; j < n; j++) {
+                                        if (venta.getPlaca().equals(inventario[j].getPlaca())) {
+                                            preciomin = (int) inventario[j].getPrecio();
+                                            inventario[j].setEstado('V');
+                                        }
+                                    }
+                                    System.out.println("PLACA: " + venta.getPlaca() + "\n"
+                                            + "PRECIO MINIMO: " + preciomin + "\n");
+                                    System.out.println("Ingrese valor de venta del auto: ");
+                                    venta.setPrecio(x.nextInt());
+
+                                    if (venta.getPrecio() < preciomin) {
+                                        System.out.println("WARN: ¡No puedes vender por debajo del precio minimo!, INTENTALO DE NUEVO:");
+                                    } else {
                                         placaExis = 1;
+                                        comision = (venta.getPrecio() - preciomin);
+                                        totalcomisiones = totalcomisiones + comision;
                                     }
-                                }
-                                if (placaExis == 0) {
-                                    System.out.println("WARN: No se encontró la placa registrada, Intentelo de nuevo: ");
-                                }
-                            } while (placaExis == 0);
-                            placaExis = 0;
+                                } while (placaExis == 0);
+                                venta.setComision(comision);
 
-                            System.out.println("VENDEDORES: ");
-                            for (int k = 0; k < n2; k++) {
-                                System.out.println("Nombre: " + empleados[k].getNombre() + "\n"
-                                        + "Cedula: " + empleados[k].getIdentificacion() + "\n");
+                                registroVenta[i] = venta;
                             }
-                            do {
-                                System.out.println("Ingrese cedula del vendedor: ");
-                                venta.setCedula(x.nextInt());
-                                for (int j = 0; j < n2; j++) {
-                                    if (venta.getCedula() == empleados[j].getIdentificacion()) {
-                                        sw = 1;
-                                    }
-                                }
-                                if (sw == 0) {
-                                    System.out.println("WARN: La cedula no se encuentra registrada, Intentelo de nuevo: ");
-                                }
-                            } while (sw == 0);
-                            sw = 0;
-
-                            do {
-                                for (int j = 0; j < n; j++) {
-                                    if (venta.getPlaca().equals(inventario[j].getPlaca())) {
-                                        preciomin = (int) inventario[j].getPrecio();
-                                        inventario[j].setEstado('V');
-                                    }
-                                }
-                                System.out.println("PLACA: " + venta.getPlaca() + "\n"
-                                        + "PRECIO MINIMO: " + preciomin + "\n");
-                                System.out.println("Ingrese valor de venta del auto: ");
-                                venta.setPrecio(x.nextInt());
-
-                                if (venta.getPrecio() < preciomin) {
-                                    System.out.println("WARN: ¡No puedes vender por debajo del precio minimo!, INTENTALO DE NUEVO:");
-                                } else {
-                                    placaExis = 1;
-                                    comision = (venta.getPrecio() - preciomin);
-                                    totalcomisiones = totalcomisiones + comision;
-                                }
-                            } while (placaExis == 0);
-                            venta.setComision(comision);
-
-                            registroVenta[i] = venta;
-                        }
-                        System.out.println("---------------LISTADO DE VENTAS------------------");
-                        for (int i = 0; i < n3; i++) {
-                            System.out.println("Placa: " + registroVenta[i].getPlaca() + "\n"
-                                    + "Cedula: " + registroVenta[i].getCedula() + "\n"
-                                    + "Valor: " + registroVenta[i].getPrecio() + "\n"
-                                    + "Comision: " + registroVenta[i].getComision());
-                        }
+                            System.out.println("---------------LISTADO DE VENTAS------------------");
+                            for (int i = 0; i < n3; i++) {
+                                System.out.println("Placa: " + registroVenta[i].getPlaca() + "\n"
+                                        + "Cedula: " + registroVenta[i].getCedula() + "\n"
+                                        + "Valor: " + registroVenta[i].getPrecio() + "\n"
+                                        + "Comision: " + registroVenta[i].getComision());
+                            }
 
 //</editor-fold>
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Es necesario registrar primero autos y empleados", "importante", JOptionPane.WARNING_MESSAGE);
+                        }
+                        op5=1;
                         sww = 1;
 
                         break;
 
                     case "6.":
 
+                        //<editor-fold defaultstate="collapsed" desc="Ingresar Descuento">
+                        if ((op1 == 1 || op3 == 1)) {
+                            int dct = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese descuento a aplicar", "Descuento", JOptionPane.INFORMATION_MESSAGE));
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
+
+//</editor-fold>
+                        op6 = 1;
                         sww = 1;
                         break;
 
                     case "7.":
 
+                        //<editor-fold defaultstate="collapsed" desc="Ingresar Descuento Global">
+                        if ((op1 == 1 || op3 == 1)) {
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
+//</editor-fold>
+
+                        op7 = 1;
                         sww = 1;
                         break;
 
                     case "8.":
 
                         //<editor-fold defaultstate="collapsed" desc="Contar unidades disponibles">
-                        int unidadesDisp = 0;
-                        for (int i = 0; i < n; i++) {
+                        if ((op1 == 1 || op3 == 1)) {
+                            int unidadesDisp = 0;
+                            for (int i = 0; i < n; i++) {
 
-                            if (inventario[i].getEstado() == 'D') {
-                                unidadesDisp = unidadesDisp + 1;
+                                if (inventario[i].getEstado() == 'D') {
+                                    unidadesDisp = unidadesDisp + 1;
+                                }
                             }
+                            JOptionPane.showMessageDialog(null, "Existen " + unidadesDisp + " unidades disponibles", "Unidades en inventario", JOptionPane.INFORMATION_MESSAGE);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                         }
-                        JOptionPane.showMessageDialog(null, "Existen " + unidadesDisp + " unidades disponibles", "Unidades en inventario", JOptionPane.INFORMATION_MESSAGE);
 //</editor-fold>
 
+                        op8 = 1;
                         sww = 1;
                         break;
 
                     case "9.":
 
+                        //<editor-fold defaultstate="collapsed" desc="Contar unidades vendidas">
+                        if ((op1 == 1 || op3 == 1)) {
+                            int unidadesVendidas = 0;
+                            for (int i = 0; i < n; i++) {
+
+                                if (inventario[i].getEstado() == 'V') {
+                                    unidadesVendidas = unidadesVendidas + 1;
+                                }
+                            }
+                            JOptionPane.showMessageDialog(null, "Hasta ahora hay " + unidadesVendidas + " unidades dendidas", "Unidades en inventario", JOptionPane.INFORMATION_MESSAGE);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                        }
+
+//</editor-fold>
                         sww = 1;
                         break;
 
@@ -398,9 +456,11 @@ public class Almacen {
 
                     case "12":
 
+                        //<editor-fold defaultstate="collapsed" desc="Salida">
                         JOptionPane.showMessageDialog(null, "      Muchas gracias por su tiempo", "Salida", -1);
                         System.out.println("\033[35m**Salir**");
                         System.out.println("Muchas gracias por su tiempo");
+//</editor-fold>
 
                         sww = 1;
                         sw = 1;
