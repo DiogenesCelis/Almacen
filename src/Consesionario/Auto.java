@@ -17,8 +17,9 @@ public class Auto {
     private String color;
     private int kilometraje;
     private char estado;
-
-    private static double dct = 10;
+    
+    private int dct=0;
+    private static int dctGlobal = 10;
 
     public Auto(String Placa, String marca, int modelo, int precio, String color, int kilometraje, char estado) {
         this.Placa = Placa;
@@ -29,8 +30,8 @@ public class Auto {
         this.kilometraje = kilometraje;
         this.estado = estado;
     }
-
     //<editor-fold defaultstate="collapsed" desc="Get & Set">
+
     public String getPlaca() {
         return Placa;
     }
@@ -55,7 +56,7 @@ public class Auto {
         this.modelo = modelo;
     }
 
-    public double getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
@@ -79,30 +80,42 @@ public class Auto {
         this.kilometraje = kilometraje;
     }
 
-    public void setEstado(char estado) {
-        this.estado = estado;
-    }
-
     public char getEstado() {
         return estado;
     }
 
-    public static double getDct() {
+    public void setEstado(char estado) {
+        this.estado = estado;
+    }
+
+    public int getDct() {
         return dct;
     }
 
-    public static void setDct(double dct) {
-        Auto.dct = dct;
+    public void setDct(int dct) {
+        this.dct = dct;
     }
+
+    public static int getDctGlobal() {
+        return dctGlobal;
+    }
+
+    public static void setDctGlobal(int dctGlobal) {
+        Auto.dctGlobal = dctGlobal;
+    }
+   
+    
+    
+    
 //</editor-fold>
-
+    
     //metodos
-    public double precioPromocinal() {
-        return Auto.dct;
+    public int descuentoUnitario() {
+        return dct;
     }
 
-    public static void anularDescuento() {
-        Auto.dct = 0;
+    public static void descuentoGlobal() {
+        Auto.dctGlobal = 10;
     }
 
     public static void llenadoAutom() {
