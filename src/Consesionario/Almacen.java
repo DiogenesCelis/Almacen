@@ -21,9 +21,9 @@ public class Almacen {
 
         int op1 = 0, op2 = 0, op3 = 0, op4 = 0, op5 = 0, op6 = 0, op7 = 0, op8 = 0, op9 = 0, op10 = 0, op11 = 0, op12 = 0;
 
-        Auto inventario[] = new Auto[1];
-        vendedor empleados[] = new vendedor[1];
-        ventas registroVenta[] = new ventas[1];
+        Auto inventario[] = null;
+        vendedor empleados[] = null;
+        ventas registroVenta[] = null;
 
         //<editor-fold defaultstate="collapsed" desc="codigo">
         do {
@@ -119,6 +119,7 @@ public class Almacen {
                         System.out.println(n);
 
                         inventario = new Auto[n];
+                        
                         String color[] = {"Negro", "Blanco", "Azul", "Gris", "Plata", "Rojo"};
                         String marca[] = {"Peugeot", "Mercedez Benz", "Fiat", "Alfa Romeo", "Audi"};
                         String placa[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
@@ -233,19 +234,25 @@ public class Almacen {
                         break;
                     case "5.":
 
-                        if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
+//                        if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
                             //<editor-fold defaultstate="collapsed" desc="Registrar Venta">
                         System.out.println("\033[35m**Registrar venta y comisión**");
 
                         System.out.println("Ingrese Placa del vehiculo");
                         
-                        String placas="";
-                            for (int i = 0; i < n; i++) {
-                                placas= placas+inventario[i].getPlaca();
-                                
-                            }
                         
-                        String BsqPlaca = JOptionPane.showInputDialog(null, placas, "Buscar Placa", 0);
+                            
+                        String placas[] = new String [n];
+                        for (int i = 0; i < n; i++) {
+                            if(inventario[i].getEstado()=='D'){
+                                placas[i]=inventario[i].getPlaca();
+                            }
+                            
+
+                        }
+                        
+                        String BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles"
+                                ,JOptionPane.PLAIN_MESSAGE, null, placas ,"Seleccciona")).toString();
                         System.out.println(BsqPlaca);
                         ventas venta1 = new ventas();
                         int posAuto = 0;
@@ -376,9 +383,9 @@ public class Almacen {
 //                            }
 //
 ////</editor-fold>
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Es necesario registrar primero autos y empleados", "importante", JOptionPane.WARNING_MESSAGE);
-                        }
+//                        } else {
+//                            JOptionPane.showMessageDialog(null, "Es necesario registrar primero autos y empleados", "importante", JOptionPane.WARNING_MESSAGE);
+//                        }
                         op5=1;
                         sww = 1;
 

@@ -9,7 +9,7 @@ import java.util.Scanner;
  */
 public class Auto {
 
-    //argumentos
+    //atributos
     private String Placa;
     private String marca;
     private int modelo;
