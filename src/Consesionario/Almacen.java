@@ -17,18 +17,18 @@ public class Almacen {
     public static void main(String[] args) {
         Scanner x = new Scanner(System.in);
         Random r = new Random();
-        int n = 0, n2 = 0, n3 = 0, sw = 0, op, mn, placaDisp = 0, placaExis = 0;
+        int n = 0, n2 = 0, n3 = 0, sw = 0, op, cont5 = 0, mn, placaDisp = 0, placaExis = 0;
 
         int op1 = 0, op2 = 0, op3 = 0, op4 = 0, op5 = 0, op6 = 0, op7 = 0, op8 = 0, op9 = 0, op10 = 0, op11 = 0, op12 = 0;
 
         Auto inventario[] = null;
         vendedor empleados[] = null;
-        ventas registroVenta[] = null;
+        ventas registroVenta[] = new ventas[100];
 
-        //<editor-fold defaultstate="collapsed" desc="codigo">
         do {
             int sww = 0;
             do {
+
                 //        <editor-fold defaultstate="collapsed" desc="Menu">
                 String menu = (JOptionPane.showInputDialog(null, "Selecciona una opción", "Menú",
                         JOptionPane.PLAIN_MESSAGE, null, new Object[]{"Selecciona una opción",
@@ -36,7 +36,8 @@ public class Almacen {
                             "3. Registrar vendedores", "4. Registrar vendedores automaticamente",
                             "5. Insertar venta y liquidar comisión", "6. Aplicar descuento",
                             "7. Aplicar descuento a todos", "8. Cantidad de autos disponibles",
-                            "9. Cantidad de autos vendidos", "10. Cantidad y total de comision por vendedor", "11. Total venta y comisiones", "12. Salir"},
+                            "9. Cantidad de autos vendidos", "10. Cantidad y total de comision por vendedor",
+                            "11. Total venta y comisiones", "12. Salir"},
                         "Selecciona")).toString();
                 menu = menu.substring(0, 2);
 
@@ -119,7 +120,7 @@ public class Almacen {
                         System.out.println(n);
 
                         inventario = new Auto[n];
-                        
+
                         String color[] = {"Negro", "Blanco", "Azul", "Gris", "Plata", "Rojo"};
                         String marca[] = {"Peugeot", "Mercedez Benz", "Fiat", "Alfa Romeo", "Audi"};
                         String placa[] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
@@ -235,71 +236,99 @@ public class Almacen {
                     case "5.":
 
 //                        if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
-                            //<editor-fold defaultstate="collapsed" desc="Registrar Venta">
+                        //<editor-fold defaultstate="collapsed" desc="Registrar Venta">
                         System.out.println("\033[35m**Registrar venta y comisión**");
 
-                        System.out.println("Ingrese Placa del vehiculo");
-                        
-                        
-                            
-                        String placas[] = new String [n];
-                        for (int i = 0; i < n; i++) {
-                            if(inventario[i].getEstado()=='D'){
-                                placas[i]=inventario[i].getPlaca();
-                            }
-                            
+                        System.out.println("Ingrese Placa del vehiculo\n");
 
+                        String placas[] = new String[n];
+                        int contD = 0;
+                        for (int i = 0; i < n; i++) {
+                            if (inventario[i].getEstado() == 'D') {
+                                placas[i] = inventario[i].getPlaca();
+                                contD = contD + 1;
+                            } else {
+                                placas[i] = "vendida";
+                            }
                         }
-                        
-                        String BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles"
-                                ,JOptionPane.PLAIN_MESSAGE, null, placas ,"Seleccciona")).toString();
-                        System.out.println(BsqPlaca);
-                        ventas venta1 = new ventas();
+
+                        String BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles",
+                                JOptionPane.PLAIN_MESSAGE, null, placas, "Seleccciona")).toString();
+                        System.out.println(BsqPlaca + "\n");
+
+                        ventas venta = new ventas();
+
                         int posAuto = 0;
 
                         for (int i = 0; i < n; i++) {
 
                             if (BsqPlaca == inventario[i].getPlaca()) {
-//                                System.out.println("El vehiculo está disponible");
 
-                                System.out.println("\033[32m**Vehiculo " + (i + 1) + "**");
+                                System.out.println("\033[32m**Elegido el vehiculo " + (i + 1) + "**");
                                 System.out.println("Marca: " + inventario[i].getMarca());
                                 System.out.println("Placa: " + inventario[i].getPlaca());
                                 System.out.println("Color: " + inventario[i].getColor());
                                 System.out.println("Kilometraje: " + inventario[i].getKilometraje() + "km");
                                 System.out.println("Modelo: " + inventario[i].getModelo());
                                 System.out.println("Precio: $" + inventario[i].getPrecio() + " Dlls");
+                                inventario[i].setEstado('V');
                                 System.out.println("\n");
 
                                 posAuto = i;
                                 placaExis = 1;
-                            }else{
-                                JOptionPane.showMessageDialog(null, "La placa no existe", "Advertencia", JOptionPane.WARNING_MESSAGE);
                             }
 
                         }
 
-//                        if(placaExis==1){
-                        if (inventario[posAuto].getEstado() == 'D') {
-                            placaDisp = 1;
-                        } else {
-                            placaDisp = 0;
-                            System.out.println("La placa no está disponible");
-                        }
-                        System.out.println(posAuto);
-                        System.out.println(registroVenta[posAuto]);
-                        System.out.println("Ingrese cedula del vendedor");
-                        int BsqCC = x.nextInt();
-                        System.out.println(BsqCC);
-                            //<editor-fold defaultstate="collapsed" desc="venta alv">
-//                        venta.setPlaca(BsqPlaca);
-//                        venta.setCedula(posAuto);
-//                        venta.setComision(posAuto);
-//                        registroVenta[1]=venta;
-//</editor-fold>
-//</editor-fold>
+                        System.out.println("Ingrese Nombre del vendedor\n");
 
-                            //<editor-fold defaultstate="collapsed" desc="Registrar Venta op2">
+                        String nombre[] = new String[n2];
+                        for (int i = 0; i < n2; i++) {
+
+                            nombre[i] = empleados[i].getNombre();
+
+                        }
+
+                        String BsqNombre = (JOptionPane.showInputDialog(null, "Elija vendedor", "Lista vendedores",
+                                JOptionPane.PLAIN_MESSAGE, null, nombre, "Seleccciona")).toString();
+                        System.out.println(BsqNombre);
+
+                        int posEmpleado = 0;
+                        for (int i = 0; i < n; i++) {
+
+                            if (BsqNombre.equals(empleados[i].getNombre())) {
+
+                                System.out.println("\033[32m**Eligio el vendedor " + (i + 1) + "**");
+                                System.out.println("Nombre: " + empleados[i].getNombre());
+                                System.out.println("Cedula: " + empleados[i].getIdentificacion());
+
+                                System.out.println("\n");
+
+                                posEmpleado = i;
+                            }
+
+                        }
+
+                        System.out.println("Ingrese precio de venta");
+                        int precioVenta = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Precio de venta", "",JOptionPane.INFORMATION_MESSAGE));
+
+                        if (precioVenta >= inventario[posAuto].getPrecio()) {
+                            venta.setComision((precioVenta - inventario[posAuto].getPrecio()));
+                            System.out.println("La comisión por esta venta es de: " + venta.getComision());
+
+                        } else {
+                            System.out.println("Precio de venta no puede ser inferior al precio minimo del vehiculo");
+                            JOptionPane.showMessageDialog(null, "Precio de venta no puede ser inferior al precio minimo del vehiculo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                            inventario[posAuto].setEstado('D');
+                        }
+                        venta.setPlaca(BsqPlaca);
+                        venta.setCedula(empleados[posEmpleado].getIdentificacion());
+
+                        registroVenta[cont5] = venta;
+                        cont5 = cont5 + 1;
+
+                        //</editor-fold>
+                        //<editor-fold defaultstate="collapsed" desc="Registrar Venta op2">
 //                            int totalcomisiones = 0,
 //                                    comision = 0,
 //                                    preciomin = 0;
@@ -310,7 +339,7 @@ public class Almacen {
 //                            registroVenta = new ventas[n3];
 //
 //                            for (int i = 0; i < n3; i++) {
-//                                ventas venta = new ventas();
+//                                ventas venta1 = new ventas();
 //
 //                                System.out.println("----------------- VENTA #" + (i + 1) + "----------------");
 //                                System.out.println("PLACAS: ");
@@ -385,8 +414,8 @@ public class Almacen {
 ////</editor-fold>
 //                        } else {
 //                            JOptionPane.showMessageDialog(null, "Es necesario registrar primero autos y empleados", "importante", JOptionPane.WARNING_MESSAGE);
-//                        }
-                        op5=1;
+//                        }                        
+                        op5 = 1;
                         sww = 1;
 
                         break;
@@ -432,11 +461,25 @@ public class Almacen {
                             }
                             JOptionPane.showMessageDialog(null, "Existen " + unidadesDisp + " unidades disponibles", "Unidades en inventario", JOptionPane.INFORMATION_MESSAGE);
 
+                            for (int i = 0; i < n; i++) {
+                                if (inventario[i].getEstado() == 'D') {
+                                    System.out.println("\033[32m**Vehiculo " + (i + 1) + "**");
+                                    System.out.println("Marca: " + inventario[i].getMarca());
+                                    System.out.println("Placa: " + inventario[i].getPlaca());
+                                    System.out.println("Color: " + inventario[i].getColor());
+                                    System.out.println("Kilometraje: " + inventario[i].getKilometraje() + "km");
+                                    System.out.println("Modelo: " + inventario[i].getModelo());
+                                    System.out.println("Precio: $" + inventario[i].getPrecio() + " Dlls");
+                                    System.out.println("\n");
+
+                                }
+                            }
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                         }
-//</editor-fold>
 
+//</editor-fold>
                         op8 = 1;
                         sww = 1;
                         break;
@@ -452,7 +495,21 @@ public class Almacen {
                                     unidadesVendidas = unidadesVendidas + 1;
                                 }
                             }
-                            JOptionPane.showMessageDialog(null, "Hasta ahora hay " + unidadesVendidas + " unidades dendidas", "Unidades en inventario", JOptionPane.INFORMATION_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Hasta ahora hay " + unidadesVendidas + " unidades vendidas", "Unidades en inventario", JOptionPane.INFORMATION_MESSAGE);
+
+                            for (int i = 0; i < n; i++) {
+                                if (inventario[i].getEstado() == 'V') {
+                                    System.out.println("\033[32m**Vehiculo " + (i + 1) + "**");
+                                    System.out.println("Marca: " + inventario[i].getMarca());
+                                    System.out.println("Placa: " + inventario[i].getPlaca());
+                                    System.out.println("Color: " + inventario[i].getColor());
+                                    System.out.println("Kilometraje: " + inventario[i].getKilometraje() + "km");
+                                    System.out.println("Modelo: " + inventario[i].getModelo());
+                                    System.out.println("Precio: $" + inventario[i].getPrecio() + " Dlls");
+                                    System.out.println("\n");
+
+                                }
+                            }
 
                         } else {
                             JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -463,6 +520,7 @@ public class Almacen {
                         break;
 
                     case "10":
+
                         sww = 1;
                         break;
 
@@ -482,6 +540,7 @@ public class Almacen {
                         sw = 1;
 
                         break;
+
                     default:
                         throw new AssertionError();
 
@@ -491,7 +550,6 @@ public class Almacen {
             } while (sww == 0);
 
         } while (sw == 0);
-//</editor-fold>
 
     }
 }
