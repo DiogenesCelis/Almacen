@@ -17,12 +17,16 @@ public class Almacen {
     public static void main(String[] args) {
         Scanner x = new Scanner(System.in);
         Random r = new Random();
-        int n = 0, n2 = 0, n3 = 0, sw = 0, op, cont5 = 0, mn, placaDisp = 0, placaExis = 0;
+        int n = 0, n2 = 0, n3 = 0, sw = 0, op, cont5 = 0, posAuto = 0,
+                placaDisp = 0, placaExis = 0, precioVenta = 0, precioMin = 0;
+
+        String BsqPlaca = "";
 
         int op1 = 0, op2 = 0, op3 = 0, op4 = 0, op5 = 0, op6 = 0, op7 = 0, op8 = 0, op9 = 0, op10 = 0, op11 = 0, op12 = 0;
 
         Auto inventario[] = null;
         vendedor empleados[] = null;
+        String placas[] = null;
         ventas registroVenta[] = new ventas[100];
 
         do {
@@ -241,7 +245,7 @@ public class Almacen {
 
                         System.out.println("Ingrese Placa del vehiculo\n");
 
-                        String placas[] = new String[n];
+                        placas = new String[n];
                         int contD = 0;
                         for (int i = 0; i < n; i++) {
                             if (inventario[i].getEstado() == 'D') {
@@ -252,13 +256,13 @@ public class Almacen {
                             }
                         }
 
-                        String BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles",
+                        BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles",
                                 JOptionPane.PLAIN_MESSAGE, null, placas, "Seleccciona")).toString();
                         System.out.println(BsqPlaca + "\n");
 
                         ventas venta = new ventas();
 
-                        int posAuto = 0;
+                        posAuto = 0;
 
                         for (int i = 0; i < n; i++) {
 
@@ -303,14 +307,14 @@ public class Almacen {
                                 System.out.println("Cedula: " + empleados[i].getIdentificacion());
 
                                 System.out.println("\n");
-
+                                empleados[i].setNumVentas(empleados[i].getNumVentas() + 1);
                                 posEmpleado = i;
                             }
 
                         }
 
                         System.out.println("Ingrese precio de venta");
-                        int precioVenta = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Precio de venta", "",JOptionPane.INFORMATION_MESSAGE));
+                        precioVenta = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Precio de venta", "", JOptionPane.INFORMATION_MESSAGE));
 
                         if (precioVenta >= inventario[posAuto].getPrecio()) {
                             venta.setComision((precioVenta - inventario[posAuto].getPrecio()));
@@ -424,7 +428,53 @@ public class Almacen {
 
                         //<editor-fold defaultstate="collapsed" desc="Ingresar Descuento">
                         if ((op1 == 1 || op3 == 1)) {
+
+                            //primero se busca la placa a aplicar dct
+                            System.out.println("Ingrese Placa del vehiculo\n");
+
+                            placas = new String[n];
+                            for (int i = 0; i < n; i++) {
+                                if (inventario[i].getEstado() == 'D') {
+                                    placas[i] = inventario[i].getPlaca();
+                                } else {
+                                    placas[i] = "vendida";
+                                }
+                            }
+
+                            BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles",
+                                    JOptionPane.PLAIN_MESSAGE, null, placas, "Seleccciona")).toString();
+//                        System.out.println(BsqPlaca + "\n");
+
+                            posAuto = 0;
+
+                            for (int i = 0; i < n; i++) {
+
+                                if (BsqPlaca == inventario[i].getPlaca()) {
+
+                                    precioMin = inventario[i].getPrecio();
+
+                                    System.out.println("\033[32m**Elegido el vehiculo " + (i + 1) + "**");
+                                    System.out.println("Marca: " + inventario[i].getMarca());
+                                    System.out.println("Placa: " + inventario[i].getPlaca());
+                                    System.out.println("Color: " + inventario[i].getColor());
+                                    System.out.println("Kilometraje: " + inventario[i].getKilometraje() + "km");
+                                    System.out.println("Modelo: " + inventario[i].getModelo());
+                                    System.out.println("Precio: $" + inventario[i].getPrecio() + " Dlls");
+                                    System.out.println("\n");
+
+                                    posAuto = i;
+                                }
+
+                            }
+
                             int dct = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese descuento a aplicar", "Descuento", JOptionPane.INFORMATION_MESSAGE));
+
+                            dct = precioMin - (inventario[posAuto].getPrecio() * dct / 100);
+
+                            System.out.println("El descuento aplicado es: " + dct);
+                            inventario[posAuto].setDct(dct);
+                            dct = 0;
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                         }
@@ -521,10 +571,36 @@ public class Almacen {
 
                     case "10":
 
+                        if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
+
+                            //<editor-fold defaultstate="collapsed" desc="Total ventas y comisiones">
+                            if (op5 == 0) {
+
+                                JOptionPane.showMessageDialog(null, "No se ha registrado ninguna venta todavía", "Info", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                
+                                int numVentas[] = new int[n2];
+
+                                for (int i = 0; i < n2; i++) {
+
+                                    numVentas[i] = empleados[i].getNumVentas();
+
+                                }
+
+                                JOptionPane.showMessageDialog(null, "El numero de ventas es: " + numVentas + "x", "Total ventas y comision", -1);
+                            }
+//</editor-fold>
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Es necesario registrar primero autos y empleados para mostrar algún registro", "importante", JOptionPane.WARNING_MESSAGE);
+                        }
+
                         sww = 1;
                         break;
 
                     case "11":
+                        
+                        
                         sww = 1;
                         break;
 

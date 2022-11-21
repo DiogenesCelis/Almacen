@@ -8,6 +8,7 @@ package Consesionario;
 public class vendedor {
         private String nombre;
     private int identificacion;
+    private int numVentas;
     private int comision;
 
 
@@ -16,11 +17,20 @@ public class vendedor {
         this.nombre = nombre;
         this.identificacion = identificacion;
         this.comision = comision;
+        this.numVentas=0;
     }
     
     //<editor-fold defaultstate="collapsed" desc="Get & Set">
     public String getNombre() {
         return nombre;
+    }
+
+    public int getNumVentas() {
+        return numVentas;
+    }
+
+    public void setNumVentas(int numVentas) {
+        this.numVentas = numVentas;
     }
     
     public void setNombre(String nombre) {
