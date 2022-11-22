@@ -17,8 +17,12 @@ public class Almacen {
     public static void main(String[] args) {
         Scanner x = new Scanner(System.in);
         Random r = new Random();
-        int n = 0, n2 = 0, n3 = 0, sw = 0, op, cont5 = 0, posEmpleado = 0, posAuto = 0,
+        int n = 0, n2 = 0, n3 = 0, sw = 0, sww = 0, op, cont5 = 0, posEmpleado = 0, posAuto = 0,
                 placaDisp = 0, placaExis = 0, precioVenta = 0, precioMin = 0;
+
+        int tam = 0, ntam = 0;
+
+        int dct = 0, dctGlobal = 0;
 
         String BsqPlaca = "";
         String BsqNombre = "";
@@ -33,7 +37,7 @@ public class Almacen {
 
         try {
             do {
-                int sww = 0;
+                sww = 0;
                 do {
 
                     //        <editor-fold defaultstate="collapsed" desc="Menu">
@@ -61,7 +65,6 @@ public class Almacen {
                             System.out.println("\033[35m**Llenado de vehiculo**");
                             n = Integer.parseInt(JOptionPane.showInputDialog("Ingrese cantidad de autos a registrar"));
                             System.out.println("Ingrese cantidad de vehiculos en inventario a registrar");
-//                n = x.nextInt();
                             System.out.println(n);
                             inventario = new Auto[n];
                             for (int i = 0; i < n; i++) {
@@ -113,7 +116,7 @@ public class Almacen {
 
                                 inventario[i] = auto1;
                             }
-                        } catch (NullPointerException e) {
+                        } catch (NumberFormatException e) {
 
                             JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
 
@@ -170,7 +173,7 @@ public class Almacen {
                                 System.out.println("Estado: " + inventario[j].getEstado());
                                 System.out.println("\n");
                             }
-                        } catch (NullPointerException e) {
+                        } catch (NumberFormatException e) {
 
                             JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
 
@@ -209,7 +212,7 @@ public class Almacen {
                                 empleados[i] = pj;
                             }
 
-                        } catch (NullPointerException e) {
+                        } catch (NumberFormatException e) {
 
                             JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
 
@@ -254,7 +257,7 @@ public class Almacen {
                                 System.out.println("\n");
 
                             }
-                        } catch (NullPointerException e) {
+                        } catch (NumberFormatException e) {
 
                             JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
 
@@ -309,6 +312,9 @@ public class Almacen {
                                                 System.out.println("Kilometraje: " + inventario[i].getKilometraje() + "km");
                                                 System.out.println("Modelo: " + inventario[i].getModelo());
                                                 System.out.println("Precio: $" + inventario[i].getPrecio() + " Dlls");
+                                                if (dct > 0) {
+                                                    System.out.println("Dct: " + inventario[i].getDct());
+                                                }
                                                 inventario[i].setEstado('V');
                                                 System.out.println("\n");
 
@@ -346,30 +352,48 @@ public class Almacen {
                                             }
 
                                         }
+                                        try {
+                                            System.out.println("Ingrese precio de venta");
+                                            int psw = 0;
+                                            do {
+                                                precioVenta = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Precio de venta\n **Nota: precio minimo de venta es: $" + inventario[posAuto].getPrecio() + "**\n", "", JOptionPane.INFORMATION_MESSAGE));
 
-                                        System.out.println("Ingrese precio de venta");
-                                        int psw = 0;
-                                        do {
-                                            precioVenta = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Precio de venta\n **Nota: precio minimo de venta es: $" + inventario[posAuto].getPrecio() + "**\n", "", JOptionPane.INFORMATION_MESSAGE));
+                                                if (inventario[posAuto].getDct() > 0) {
+                                                    if ((precioVenta - inventario[posAuto].getDct()) >= inventario[posAuto].getPrecio()) {
+                                                        venta.setComision(((precioVenta - inventario[posAuto].getDct()) - inventario[posAuto].getPrecio()));
+                                                        System.out.println("La comisión por esta venta es de: " + venta.getComision());
+                                                        psw = 1;
 
-                                            if (precioVenta >= inventario[posAuto].getPrecio()) {
-                                                venta.setComision((precioVenta - inventario[posAuto].getPrecio()));
-                                                System.out.println("La comisión por esta venta es de: " + venta.getComision());
-                                                psw = 1;
+                                                    } else {
+                                                        System.out.println("Precio de venta no puede ser inferior al precio minimo del vehiculo");
+                                                        JOptionPane.showMessageDialog(null, "Precio de venta no puede ser inferior al precio minimo del vehiculo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                                                    }
+                                                } else {
+                                                    if (precioVenta >= inventario[posAuto].getPrecio()) {
+                                                        venta.setComision((precioVenta - inventario[posAuto].getPrecio()));
+                                                        System.out.println("La comisión por esta venta es de: " + venta.getComision());
+                                                        psw = 1;
 
-                                            } else {
-                                                System.out.println("Precio de venta no puede ser inferior al precio minimo del vehiculo");
-                                                JOptionPane.showMessageDialog(null, "Precio de venta no puede ser inferior al precio minimo del vehiculo", "Advertencia", JOptionPane.WARNING_MESSAGE);
-                                            }
-                                        } while (psw == 0);
+                                                    } else {
+                                                        System.out.println("Precio de venta no puede ser inferior al precio minimo del vehiculo");
+                                                        JOptionPane.showMessageDialog(null, "Precio de venta no puede ser inferior al precio minimo del vehiculo", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                                                    }
+                                                }
 
-                                        venta.setPlaca(BsqPlaca);
-                                        venta.setCedula(empleados[posEmpleado].getIdentificacion());
-                                        empleados[posEmpleado].setNumVentas(empleados[posEmpleado].getNumVentas());
+                                            } while (psw == 0);
 
-                                        registroVenta[cont5] = venta;
-                                        cont5 = cont5 + 1;
+                                            venta.setPlaca(BsqPlaca);
+                                            venta.setCedula(empleados[posEmpleado].getIdentificacion());
+                                            empleados[posEmpleado].setNumVentas(empleados[posEmpleado].getNumVentas());
 
+                                            registroVenta[cont5] = venta;
+                                            cont5 = cont5 + 1;
+                                        } catch (NumberFormatException e) {
+                                            JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
+                                            sww = 1;
+                                            inventario[posAuto].setEstado('D');
+                                            empleados[posEmpleado].setNumVentas(empleados[posEmpleado].getNumVentas()-1);
+                                        }
                                     }
                                 }
 
@@ -407,7 +431,6 @@ public class Almacen {
 
                                 BsqPlaca = (JOptionPane.showInputDialog(null, "Elija una placa", "Placas disponibles",
                                         JOptionPane.PLAIN_MESSAGE, null, placas, "Seleccciona")).toString();
-//                        System.out.println(BsqPlaca + "\n");
 
                                 posAuto = 0;
 
@@ -431,9 +454,9 @@ public class Almacen {
 
                                 }
 
-                                int dct = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese descuento a aplicar", "Descuento", JOptionPane.INFORMATION_MESSAGE));
+                                dct = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese descuento a aplicar", "Descuento", JOptionPane.INFORMATION_MESSAGE));
 
-                                dct = precioMin - (inventario[posAuto].getPrecio() * dct / 100);
+                                dct = precioVenta - (dct * dct / 100);
 
                                 System.out.println("El descuento aplicado es: " + dct);
                                 inventario[posAuto].setDct(dct);
@@ -452,7 +475,10 @@ public class Almacen {
 
                             //<editor-fold defaultstate="collapsed" desc="Ingresar Descuento Global">
                             if ((op1 == 1 || op3 == 1)) {
-                                JOptionPane.showMessageDialog(null, "No se puede aplicar descuento global a los vehiculos por el momento", "Advertencia", JOptionPane.WARNING_MESSAGE);
+
+//                                JOptionPane.showMessageDialog(null, "No se puede aplicar descuento global a los vehiculos por el momento", "Advertencia", JOptionPane.WARNING_MESSAGE);
+                                Auto.descuentoGlobal(dct);
+
                             } else {
                                 JOptionPane.showMessageDialog(null, "Primero debe registrar autos", "Advertencia", JOptionPane.WARNING_MESSAGE);
                             }
@@ -536,6 +562,7 @@ public class Almacen {
                         case "10":
 
                             //<editor-fold defaultstate="collapsed" desc="Total ventas y comision por vendedor">
+                            try {
                             if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
 
                                 if (op5 == 0) {
@@ -603,10 +630,15 @@ public class Almacen {
                             } else {
                                 JOptionPane.showMessageDialog(null, "Es necesario registrar primero autos y empleados para mostrar algún registro", "importante", JOptionPane.WARNING_MESSAGE);
                             }
+                        } catch (NullPointerException e) {
+
+                            JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Cancel", 0);
+
+                        }
 //</editor-fold>
 
-                            sww = 1;
-                            break;
+                        sww = 1;
+                        break;
 
                         case "11":
                             //<editor-fold defaultstate="collapsed" desc="Total ventas y comisiones">
@@ -672,7 +704,12 @@ public class Almacen {
             } while (sw == 0);
         } catch (NullPointerException e) {
 
-            JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
+            JOptionPane.showMessageDialog(null, "Usted ha cancelado", "", 0);
+
         }
+//        catch(NumberFormatException d){
+//            JOptionPane.showMessageDialog(null, "Usted ha cancelado", "Salida", 0);
+//            sww=1;
+//        }
     }
 }

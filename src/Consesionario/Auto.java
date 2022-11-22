@@ -2,6 +2,7 @@ package Consesionario;
 
 import java.util.Random;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,8 +18,8 @@ public class Auto {
     private String color;
     private int kilometraje;
     private char estado;
-    
-    private int dct=0;
+
+    private int dct = 0;
     private static int dctGlobal = 10;
 
     public Auto(String Placa, String marca, int modelo, int precio, String color, int kilometraje, char estado) {
@@ -103,19 +104,18 @@ public class Auto {
     public static void setDctGlobal(int dctGlobal) {
         Auto.dctGlobal = dctGlobal;
     }
-   
-    
-    
-    
+
 //</editor-fold>
-    
     //metodos
     public int descuentoUnitario() {
         return dct;
     }
 
-    public static void descuentoGlobal() {
-        Auto.dctGlobal = 10;
+    public static void descuentoGlobal(int dct) {
+        System.out.println("\033[35m **Ingresar descuento Global**");
+        Auto.dctGlobal = dct = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese Descuento Global", "Descuento Global", JOptionPane.QUESTION_MESSAGE));
+        JOptionPane.showMessageDialog(null, "Se ha aplicado a todos los vehiculos en inventario un descuento de "+dct, "Descuento Aplicado", JOptionPane.INFORMATION_MESSAGE);
+        System.out.println("Se ha aplicado a todos los vehiculos en inventario un descuento de "+dct);
     }
 
     public static void llenadoAutom() {
@@ -154,6 +154,6 @@ public class Auto {
             System.out.println("Precio: $" + vent[j].getPrecio() + " Dlls");
             System.out.println("\n");
         }
-        
+
     }
 }
