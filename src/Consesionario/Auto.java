@@ -1,3 +1,8 @@
+/*
+ * Click https://github.com/DiogenesCelis/Almacen para descargar el repositorio en GitHub
+ *
+ */
+
 package Consesionario;
 
 import java.util.Random;

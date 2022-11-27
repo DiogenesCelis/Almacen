@@ -2,6 +2,7 @@
  * Click https://github.com/DiogenesCelis/Almacen para descargar el repositorio en GitHub
  *
  */
+
 package Consesionario;
 
 import java.text.Format;
@@ -15,9 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class Almacen {
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String[] args) {
         Scanner x = new Scanner(System.in);
         Random r = new Random();
@@ -58,12 +57,12 @@ public class Almacen {
 
                     switch (menu) {
 
-                        case "Se":
+                        case "Se":/*opcion default*/
                             sww = 1;
 
                             break;
 
-                        case "1.":
+                        case "1.":/*registrar auto*/
                             //<editor-fold defaultstate="collapsed" desc="Llenado vehiculo">
                             try {
                             System.out.println("\033[35m**Llenado de vehiculo**");
@@ -131,7 +130,7 @@ public class Almacen {
                         sww = 1;
                         break;
 
-                        case "2.":
+                        case "2.":/*registrar autos automaticamente*/
                             //<editor-fold defaultstate="collapsed" desc="LLenado automatico vehiculo">
                             
                             try {
@@ -189,7 +188,7 @@ public class Almacen {
                         sww = 1;
                         break;
 
-                        case "3.":
+                        case "3.":/* */
                             //<editor-fold defaultstate="collapsed" desc="Llenado Empleados">
                             try {
                             System.out.println("\033[35m**Llenado de empleados**");
@@ -226,7 +225,7 @@ public class Almacen {
                         op3 = 1;
                         sww = 1;
                         break;
-                        case "4.":
+                        case "4.":/* */
                             //<editor-fold defaultstate="collapsed" desc="Llenado empleados automatico">
                             try {
                             System.out.println("\033[35m**Llenado de empleados automatico**");
@@ -272,7 +271,7 @@ public class Almacen {
                         op4 = 1;
                         sww = 1;
                         break;
-                        case "5.":
+                        case "5.":/* */
 
                             //<editor-fold defaultstate="collapsed" desc="Registrar Venta">
                             try {
@@ -416,7 +415,7 @@ public class Almacen {
 
                         break;
 
-                        case "6.":
+                        case "6.":/* */
 
                             //<editor-fold defaultstate="collapsed" desc="Ingresar Descuento">
                             if ((op1 == 1 || op3 == 1)) {
@@ -475,7 +474,7 @@ public class Almacen {
                             sww = 1;
                             break;
 
-                        case "7.":
+                        case "7.":/* */
 
                             //<editor-fold defaultstate="collapsed" desc="Ingresar Descuento Global">
                             if ((op1 == 1 || op3 == 1)) {
@@ -492,7 +491,7 @@ public class Almacen {
                             sww = 1;
                             break;
 
-                        case "8.":
+                        case "8.":/*Contar unidades*/
 
                             //<editor-fold defaultstate="collapsed" desc="Contar unidades disponibles">
                             if ((op1 == 1 || op3 == 1)) {
@@ -528,7 +527,7 @@ public class Almacen {
                             sww = 1;
                             break;
 
-                        case "9.":
+                        case "9.":/* */
 
                             //<editor-fold defaultstate="collapsed" desc="Contar unidades vendidas">
                             if ((op1 == 1 || op3 == 1)) {
@@ -563,7 +562,7 @@ public class Almacen {
                             sww = 1;
                             break;
 
-                        case "10":
+                        case "10":/* */
 
                             //<editor-fold defaultstate="collapsed" desc="Total ventas y comision por vendedor">
                             try {
@@ -644,7 +643,7 @@ public class Almacen {
                         sww = 1;
                         break;
 
-                        case "11":
+                        case "11":/* */
                             //<editor-fold defaultstate="collapsed" desc="Total ventas y comisiones">
                             if ((op1 == 1 && op3 == 1) || (op2 == 1 && op4 == 1)) {
 
@@ -679,7 +678,7 @@ public class Almacen {
                             sww = 1;
                             break;
 
-                        case "12":
+                        case "12":/* */
 
                             //<editor-fold defaultstate="collapsed" desc="Salida">
                             JOptionPane.showMessageDialog(null, "      Muchas gracias por su tiempo", "Salida", -1);
@@ -690,11 +689,6 @@ public class Almacen {
                             sww = 1;
                             sw = 1;
 
-                            break;
-
-                        case null:
-                            JOptionPane.showMessageDialog(null, "Usted ha cancelado", "", 0);
-                            sww = 1;
                             break;
 
                         default:
